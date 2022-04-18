@@ -28,7 +28,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@PostMapping("/categorys")
+	@PostMapping("/categories")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Add a new category")
 	@ApiResponses( value = {
@@ -39,9 +39,9 @@ public class CategoryController {
 		return categoryService.addCategory(cat);
 	}
 
-	@GetMapping("/categorys")
+	@GetMapping("/categories")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Listing all categorys")
+	@ApiOperation(value = "Listing all categories")
 	@ApiResponses( value = {
 		@ApiResponse(code = 200, message = "All categories listed successfully"),
 		@ApiResponse(code = 500, message = "Error listing all categories")
@@ -50,7 +50,7 @@ public class CategoryController {
 		return categoryService.findAll();
 	}
 
-	@GetMapping("/categorys/{id}")
+	@GetMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Finding category by Id")
 	@ApiResponses( value = {
@@ -61,7 +61,7 @@ public class CategoryController {
 		return categoryService.findById(id);
 	}
 
-	@PutMapping("/categorys/{id}")
+	@PutMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Updating a category")
 	@ApiResponses( value = {
@@ -72,7 +72,7 @@ public class CategoryController {
 		return categoryService.updateCategoryById(category, id);
 	}
 
-	@DeleteMapping("/categorys/{id}")
+	@DeleteMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Deleting a category")
 	@ApiResponses( value = {
