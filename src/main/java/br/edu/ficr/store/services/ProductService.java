@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ficr.store.entities.Product;
 import br.edu.ficr.store.entities.StockStatus;
+import br.edu.ficr.store.repositories.CategoryRepository;
 import br.edu.ficr.store.repositories.ProductRepository;
+import br.edu.ficr.store.repositories.SupplierRepository;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -20,8 +22,19 @@ public class ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private SupplierRepository supplierRepository;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+
 	public Product addProduct(@RequestBody Product product) {
 		product.setUpdatedAt(Instant.now());
+		if (product.getCategory() != null)
+			categoryRepository.save(product.getCategory());
+		if (product.getSupplier() != null)
+			supplierRepository.save(product.getSupplier());
 		setStock(product);
 		return productRepository.save(product);
 
@@ -55,7 +68,7 @@ public class ProductService {
 		if (product.getQuantity() > 0) {
 			product.setStatus(StockStatus.IN_STOCK);
 		}
-		if (product.getQuantity() <= 0 || product.getQuantity()==null) {
+		if (product.getQuantity() <= 0 || product.getQuantity() == null) {
 			product.setStatus(StockStatus.OUT_OF_STOCK);
 		}
 	}

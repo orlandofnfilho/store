@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,13 @@ public class Supplier implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiModelProperty(value = "id", position = 1)
 	private Long id;
+	@ApiModelProperty(value = "name", position = 2)
 	private String name;
+	@ApiModelProperty(value = "phone", position = 3)
 	private String phone;
+	@ApiModelProperty(value = "email", position = 4)
 	private String email;
 
 	@JsonIgnore
