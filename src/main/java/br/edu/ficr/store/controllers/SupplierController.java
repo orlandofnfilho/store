@@ -42,7 +42,7 @@ public class SupplierController {
 
 	@PostMapping("/addProdSup")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Add a new supplier")
+	@ApiOperation(value = "Add Product to supplier")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product add to supplier"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
 			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
