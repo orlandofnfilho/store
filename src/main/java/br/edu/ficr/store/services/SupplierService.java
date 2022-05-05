@@ -4,17 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ficr.store.entities.Supplier;
 import br.edu.ficr.store.repositories.ProductRepository;
 import br.edu.ficr.store.repositories.SupplierRepository;
 
-@RestController
-@RequestMapping(value = "/suppliers")
+@Service
 public class SupplierService {
 
 	@Autowired

@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.edu.ficr.store.entities.Category;
 import br.edu.ficr.store.repositories.CategoryRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class CategoryService {
 
 	@Autowired
