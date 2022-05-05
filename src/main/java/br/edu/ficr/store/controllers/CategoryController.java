@@ -31,10 +31,10 @@ public class CategoryController {
 	@PostMapping("/categories")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Add a new category")
-	@ApiResponses( value = {
-		@ApiResponse(code = 201, message = "New category created successful"),
-		@ApiResponse(code = 500, message = "Error adding a category")
-	})
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 500, message = "Error adding category") })
 	public Category addCategory(@RequestBody Category cat) {
 		return categoryService.addCategory(cat);
 	}
@@ -42,10 +42,11 @@ public class CategoryController {
 	@GetMapping("/categories")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Listing all categories")
-	@ApiResponses( value = {
-		@ApiResponse(code = 200, message = "All categories listed successfully"),
-		@ApiResponse(code = 500, message = "Error listing all categories")
-	})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "All categories listed"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Categories not found"),
+			@ApiResponse(code = 500, message = "Error listing all categories") })
 	public List<Category> findAll() {
 		return categoryService.findAll();
 	}
@@ -53,10 +54,11 @@ public class CategoryController {
 	@GetMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Finding category by Id")
-	@ApiResponses( value = {
-		@ApiResponse(code = 200, message = "Category successfully found"),
-		@ApiResponse(code = 404, message = "Category not found")
-	})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category found by id"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Category not found"),
+			@ApiResponse(code = 500, message = "Error getting category") })
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
 		return categoryService.findById(id);
 	}
@@ -64,10 +66,11 @@ public class CategoryController {
 	@PutMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Updating a category")
-	@ApiResponses( value = {
-		@ApiResponse(code = 200, message = "Category successfully updated"),
-		@ApiResponse(code = 404, message = "Error updating the category")
-	})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category updated"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Category not found"),
+			@ApiResponse(code = 500, message = "Error updating category") })
 	public ResponseEntity<Category> findById(@RequestBody Category category, @PathVariable Long id) {
 		return categoryService.updateCategoryById(category, id);
 	}
@@ -75,10 +78,11 @@ public class CategoryController {
 	@DeleteMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Deleting a category")
-	@ApiResponses( value = {
-		@ApiResponse(code = 204, message = "Category successfully deleted"),
-		@ApiResponse(code = 404, message = "Category not found")
-	})
+	@ApiResponses(value = { @ApiResponse(code = 204, message = "Category deleted"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Category not found"),
+			@ApiResponse(code = 500, message = "Error deleting category") })
 	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
 		return categoryService.deleteCategoryById(id);
 	}

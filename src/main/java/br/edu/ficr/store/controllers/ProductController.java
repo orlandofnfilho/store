@@ -26,69 +26,72 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1")
 @Slf4j
 public class ProductController {
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@PostMapping("/products")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Add a new product")
-	@ApiResponses( value = {
-		@ApiResponse(code = 201, message = "New product created successful"),
-		@ApiResponse(code = 500, message = "Error adding product")
-	})
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product created"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 500, message = "Error adding product") })
 	public Product addProduct(@RequestBody Product product) {
 		log.info("Added a new product: [{}]", product);
 		return productService.addProduct(product);
 	}
-	
+
 	@GetMapping("/products")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Listing all products")
-	@ApiResponses( value = {
-		@ApiResponse(code = 200, message = "All products listed successfully"),
-		@ApiResponse(code = 500, message = "Error listing all products")
-	})
-	public List<Product> findAll(){
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "All prodcuts listed"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Products not found"),
+			@ApiResponse(code = 500, message = "Error listing all products") })
+	public List<Product> findAll() {
 		log.info("Show all products");
 		return productService.findAll();
 	}
-	
+
 	@GetMapping("/products/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Finding product by Id")
-	@ApiResponses( value = {
-		@ApiResponse(code = 200, message = "Product successfully found"),
-		@ApiResponse(code = 404, message = "Product not found")
-	})
-	public ResponseEntity<Product> findById(@PathVariable Long id){
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product found by id"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Product not found"),
+			@ApiResponse(code = 500, message = "Error getting product") })
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		log.info("Find product by Id: [{}]", id);
 		return productService.findById(id);
 	}
-	
+
 	@PutMapping("/products/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Updating a product")
-	@ApiResponses( value = {
-		@ApiResponse(code = 200, message = "Product successfully updated"),
-		@ApiResponse(code = 404, message = "Error updating the product")
-	})
-	public ResponseEntity<Product> findById(@RequestBody Product product, @PathVariable Long id){
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Product not found"),
+			@ApiResponse(code = 500, message = "Error updating product") })
+	public ResponseEntity<Product> findById(@RequestBody Product product, @PathVariable Long id) {
 		log.info("Updateding product: [{}] with infos: [{}]", id, product);
 		return productService.updateProductById(product, id);
 	}
-	
+
 	@DeleteMapping("/products/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Deleting a product")
-	@ApiResponses( value = {
-		@ApiResponse(code = 204, message = "Product successfully deleted"),
-		@ApiResponse(code = 404, message = "Product not found")
-	})
-	public ResponseEntity<Object> deleteById(@PathVariable Long id){
+	@ApiResponses(value = { @ApiResponse(code = 204, message = "Product deleted"),
+			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
+			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 404, message = "Product not found"),
+			@ApiResponse(code = 500, message = "Error deleting product") })
+	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
 		log.info("Deleting product: [{}]", id);
 		return productService.deleteProductById(id);
 	}
-	
 
 }

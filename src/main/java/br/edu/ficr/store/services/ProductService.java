@@ -1,6 +1,5 @@
 package br.edu.ficr.store.services;
 
-import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ficr.store.entities.Product;
-import br.edu.ficr.store.entities.StockStatus;
-import br.edu.ficr.store.repositories.CategoryRepository;
 import br.edu.ficr.store.repositories.ProductRepository;
-import br.edu.ficr.store.repositories.SupplierRepository;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -21,21 +17,8 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
-
-	@Autowired
-	private SupplierRepository supplierRepository;
-
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-
-	public Product addProduct(@RequestBody Product product) {
-		product.setUpdatedAt(Instant.now());
-		if (product.getCategory() != null)
-			categoryRepository.save(product.getCategory());
-		if (product.getSupplier() != null)
-			supplierRepository.save(product.getSupplier());
-		setStock(product);
+	
+	public Product addProduct(@RequestBody Product product) {		
 		return productRepository.save(product);
 
 	}
@@ -51,7 +34,7 @@ public class ProductService {
 
 	public ResponseEntity<Product> updateProductById(Product product, Long id) {
 		return productRepository.findById(id).map(productToUpdate -> {
-			setStock(productToUpdate);
+//			setStock(productToUpdate);
 			Product updated = productRepository.save(productToUpdate);
 			return ResponseEntity.ok().body(updated);
 		}).orElse(ResponseEntity.notFound().build());
@@ -62,14 +45,5 @@ public class ProductService {
 			productRepository.deleteById(id);
 			return ResponseEntity.noContent().build();
 		}).orElse(ResponseEntity.notFound().build());
-	}
-
-	public static void setStock(Product product) {
-		if (product.getQuantity() > 0) {
-			product.setStatus(StockStatus.IN_STOCK);
-		}
-		if (product.getQuantity() <= 0 || product.getQuantity() == null) {
-			product.setStatus(StockStatus.OUT_OF_STOCK);
-		}
 	}
 }
