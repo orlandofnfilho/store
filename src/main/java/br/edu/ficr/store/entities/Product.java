@@ -3,10 +3,7 @@ package br.edu.ficr.store.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -54,9 +49,10 @@ public class Product implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
-	@ApiModelProperty(value = "category", position = 8)
+	@ApiModelProperty(value = "category", position = 8, required = false)
 	private Category category;
 
+	
 	@ManyToMany
 	@JoinTable(name = "Products_Suppliers", uniqueConstraints = @UniqueConstraint(columnNames = { "product_id",
 			"supplier_id" }), joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))

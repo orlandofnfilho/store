@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.edu.ficr.store.entities.Product;
+import br.edu.ficr.store.repositories.CategoryRepository;
 import br.edu.ficr.store.repositories.ProductRepository;
+import br.edu.ficr.store.repositories.SupplierRepository;
 import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
 
 @Service
@@ -16,8 +18,20 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
-	public Product addProduct(@RequestBody Product product) {		
+
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private SupplierRepository supplierRepository;
+
+	public Product addProduct(@RequestBody Product product) {
+		if (product.getCategory() != null) {
+			categoryRepository.save(product.getCategory());
+		}
+		if (!product.getSuppliers().isEmpty()) {
+			supplierRepository.saveAll(product.getSuppliers());
+		}
 		return productRepository.save(product);
 
 	}
