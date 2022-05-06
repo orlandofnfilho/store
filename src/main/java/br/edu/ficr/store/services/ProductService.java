@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.edu.ficr.store.entities.Product;
 import br.edu.ficr.store.repositories.ProductRepository;
+import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
 
 @Service
 public class ProductService {
@@ -27,7 +28,7 @@ public class ProductService {
 
 	public ResponseEntity<Product> findById(Long id) {
 		return productRepository.findById(id).map(product -> ResponseEntity.ok().body(product))
-				.orElse(ResponseEntity.notFound().build());
+				.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
 	public ResponseEntity<Product> updateProductById(Product product, Long id) {
@@ -35,13 +36,13 @@ public class ProductService {
 //			setStock(productToUpdate);
 			Product updated = productRepository.save(productToUpdate);
 			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
+		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
 	public ResponseEntity<Object> deleteProductById(Long id) {
 		return productRepository.findById(id).map(productToDelete -> {
 			productRepository.deleteById(id);
 			return ResponseEntity.noContent().build();
-		}).orElse(ResponseEntity.notFound().build());
+		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 }

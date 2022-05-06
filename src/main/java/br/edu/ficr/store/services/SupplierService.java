@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.edu.ficr.store.entities.Supplier;
 import br.edu.ficr.store.repositories.ProductRepository;
 import br.edu.ficr.store.repositories.SupplierRepository;
+import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
 
 @Service
 public class SupplierService {
@@ -20,8 +21,7 @@ public class SupplierService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
-	
+
 	public Supplier addSupplier(@RequestBody Supplier supplier) {
 		return supplierRepository.save(supplier);
 
@@ -40,20 +40,20 @@ public class SupplierService {
 
 	public ResponseEntity<Supplier> findById(Long id) {
 		return supplierRepository.findById(id).map(supplier -> ResponseEntity.ok().body(supplier))
-				.orElse(ResponseEntity.notFound().build());
+				.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
 	public ResponseEntity<Supplier> updateSupplierById(Supplier supplier, Long id) {
 		return supplierRepository.findById(id).map(supplierToUpdate -> {
 			Supplier updated = supplierRepository.save(supplierToUpdate);
 			return ResponseEntity.ok().body(updated);
-		}).orElse(ResponseEntity.notFound().build());
+		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
 	public ResponseEntity<Object> deleteSupplierById(Long id) {
 		return supplierRepository.findById(id).map(supplierToDelete -> {
 			supplierRepository.deleteById(id);
 			return ResponseEntity.noContent().build();
-		}).orElse(ResponseEntity.notFound().build());
+		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 }

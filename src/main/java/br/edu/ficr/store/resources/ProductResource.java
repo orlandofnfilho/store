@@ -1,4 +1,4 @@
-package br.edu.ficr.store.controllers;
+package br.edu.ficr.store.resources;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
-public class ProductController {
+public class ProductResource {
 
 	@Autowired
 	private ProductService productService;
@@ -35,7 +35,7 @@ public class ProductController {
 	@ApiOperation(value = "Add a new product")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product created"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 500, message = "Error adding product") })
 	public Product addProduct(@RequestBody Product product) {
 		log.info("Added a new product: [{}]", product);
@@ -47,7 +47,7 @@ public class ProductController {
 	@ApiOperation(value = "Listing all products")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "All prodcuts listed"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Products not found"),
 			@ApiResponse(code = 500, message = "Error listing all products") })
 	public List<Product> findAll() {
@@ -60,7 +60,7 @@ public class ProductController {
 	@ApiOperation(value = "Finding product by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product found by id"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Product not found"),
 			@ApiResponse(code = 500, message = "Error getting product") })
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
@@ -73,7 +73,7 @@ public class ProductController {
 	@ApiOperation(value = "Updating a product")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Product not found"),
 			@ApiResponse(code = 500, message = "Error updating product") })
 	public ResponseEntity<Product> findById(@RequestBody Product product, @PathVariable Long id) {
@@ -86,7 +86,7 @@ public class ProductController {
 	@ApiOperation(value = "Deleting a product")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Product deleted"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Product not found"),
 			@ApiResponse(code = 500, message = "Error deleting product") })
 	public ResponseEntity<Object> deleteById(@PathVariable Long id) {

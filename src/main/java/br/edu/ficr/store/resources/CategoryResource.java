@@ -1,4 +1,4 @@
-package br.edu.ficr.store.controllers;
+package br.edu.ficr.store.resources;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/v1")
-public class CategoryController {
+public class CategoryResource {
 
 	@Autowired
 	private CategoryService categoryService;
@@ -33,7 +33,7 @@ public class CategoryController {
 	@ApiOperation(value = "Add a new category")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 500, message = "Error adding category") })
 	public Category addCategory(@RequestBody Category cat) {
 		return categoryService.addCategory(cat);
@@ -44,23 +44,24 @@ public class CategoryController {
 	@ApiOperation(value = "Listing all categories")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "All categories listed"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Categories not found"),
 			@ApiResponse(code = 500, message = "Error listing all categories") })
 	public List<Category> findAll() {
 		return categoryService.findAll();
 	}
-
+	
+	
 	@GetMapping("/categories/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Finding category by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category found by id"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Category not found"),
 			@ApiResponse(code = 500, message = "Error getting category") })
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
-		return categoryService.findById(id);
+			return categoryService.findById(id);
 	}
 
 	@PutMapping("/categories/{id}")
@@ -68,7 +69,7 @@ public class CategoryController {
 	@ApiOperation(value = "Updating a category")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category updated"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Category not found"),
 			@ApiResponse(code = 500, message = "Error updating category") })
 	public ResponseEntity<Category> findById(@RequestBody Category category, @PathVariable Long id) {
@@ -80,7 +81,7 @@ public class CategoryController {
 	@ApiOperation(value = "Deleting a category")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Category deleted"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "You do not have permission to access the resource"),
+			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Category not found"),
 			@ApiResponse(code = 500, message = "Error deleting category") })
 	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
