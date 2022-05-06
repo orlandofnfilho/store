@@ -72,7 +72,7 @@ public class CategoryResource {
 			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Category not found"),
 			@ApiResponse(code = 500, message = "Error updating category") })
-	public ResponseEntity<Category> findById(@RequestBody Category category, @PathVariable Long id) {
+	public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable Long id) {
 		return categoryService.updateCategoryById(category, id);
 	}
 

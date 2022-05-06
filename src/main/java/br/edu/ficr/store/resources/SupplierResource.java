@@ -84,7 +84,7 @@ public class SupplierResource {
 			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Supplier not found"),
 			@ApiResponse(code = 500, message = "Error updating supplier") })
-	public ResponseEntity<Supplier> findById(@RequestBody Supplier supplier, @PathVariable Long id) {
+	public ResponseEntity<Supplier> updateSupplier(@RequestBody Supplier supplier, @PathVariable Long id) {
 		return supplierService.updateSupplierById(supplier, id);
 	}
 

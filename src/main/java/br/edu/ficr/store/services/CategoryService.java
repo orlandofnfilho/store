@@ -33,6 +33,7 @@ public class CategoryService {
 
 	public ResponseEntity<Category> updateCategoryById(Category category, Long id) {
 		return categoryRepository.findById(id).map(categoryToUpdate -> {
+			categoryToUpdate.setName(category.getName());
 			Category updated = categoryRepository.save(categoryToUpdate);
 			return ResponseEntity.ok().body(updated);
 		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));

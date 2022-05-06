@@ -76,7 +76,7 @@ public class ProductResource {
 			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 404, message = "Product not found"),
 			@ApiResponse(code = 500, message = "Error updating product") })
-	public ResponseEntity<Product> findById(@RequestBody Product product, @PathVariable Long id) {
+	public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable Long id) {
 		log.info("Updateding product: [{}] with infos: [{}]", id, product);
 		return productService.updateProductById(product, id);
 	}

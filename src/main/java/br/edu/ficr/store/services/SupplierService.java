@@ -45,6 +45,9 @@ public class SupplierService {
 
 	public ResponseEntity<Supplier> updateSupplierById(Supplier supplier, Long id) {
 		return supplierRepository.findById(id).map(supplierToUpdate -> {
+			supplierToUpdate.setName(supplier.getName());
+			supplierToUpdate.setPhone(supplier.getPhone());
+			supplierToUpdate.setEmail(supplierToUpdate.getEmail());
 			Supplier updated = supplierRepository.save(supplierToUpdate);
 			return ResponseEntity.ok().body(updated);
 		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
