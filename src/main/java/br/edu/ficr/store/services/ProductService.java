@@ -46,7 +46,13 @@ public class ProductService {
 
 	public ResponseEntity<Product> updateProductById(Product product, Long id) {
 		return productRepository.findById(id).map(productToUpdate -> {
-//			setStock(productToUpdate);
+			productToUpdate.setName(product.getName());
+			productToUpdate.setPrice(product.getPrice());
+			productToUpdate.setBrand(product.getBrand());
+			productToUpdate.setSku(product.getSku());
+			productToUpdate.setWeight(product.getWeight());
+			productToUpdate.setDescription(product.getDescription());
+			productToUpdate.setCategory(product.getCategory());
 			Product updated = productRepository.save(productToUpdate);
 			return ResponseEntity.ok().body(updated);
 		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
