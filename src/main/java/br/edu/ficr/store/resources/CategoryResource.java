@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v2")
 public class CategoryResource {
 
 	@Autowired
