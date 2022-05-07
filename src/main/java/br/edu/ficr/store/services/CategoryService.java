@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import br.edu.ficr.store.entities.Category;
 import br.edu.ficr.store.repositories.CategoryRepository;
@@ -17,7 +16,7 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	public Category addCategory(@RequestBody Category category) {
+	public Category addCategory(Category category) {
 		return categoryRepository.save(category);
 
 	}

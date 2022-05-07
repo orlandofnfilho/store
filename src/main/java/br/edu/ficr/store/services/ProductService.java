@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import br.edu.ficr.store.entities.Product;
 import br.edu.ficr.store.repositories.CategoryRepository;
@@ -25,7 +24,7 @@ public class ProductService {
 	@Autowired
 	private SupplierRepository supplierRepository;
 
-	public Product addProduct(@RequestBody Product product) {
+	public Product addProduct(Product product) {
 		if (product.getCategory() != null) {
 			categoryRepository.save(product.getCategory());
 		}
