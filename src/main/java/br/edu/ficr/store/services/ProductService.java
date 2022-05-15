@@ -1,9 +1,10 @@
 package br.edu.ficr.store.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ficr.store.entities.Product;
@@ -24,14 +25,14 @@ public class ProductService {
 	@Autowired
 	private SupplierRepository supplierRepository;
 
-	public Product addProduct(Product product) {
-		if (product.getCategory() != null) {
-			categoryRepository.save(product.getCategory());
+	public Product insert(Product obj) {
+		if (obj.getCategory() != null) {
+			categoryRepository.save(obj.getCategory());
 		}
-		if (!product.getSuppliers().isEmpty()) {
-			supplierRepository.saveAll(product.getSuppliers());
+		if (!obj.getSuppliers().isEmpty()) {
+			supplierRepository.saveAll(obj.getSuppliers());
 		}
-		return productRepository.save(product);
+		return productRepository.save(obj);
 
 	}
 
@@ -39,29 +40,37 @@ public class ProductService {
 		return productRepository.findAll();
 	}
 
-	public ResponseEntity<Product> findById(Long id) {
-		return productRepository.findById(id).map(product -> ResponseEntity.ok().body(product))
-				.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+	public Product findById(Long id) {
+		Optional<Product> obj = productRepository.findById(id);
+		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
-	public ResponseEntity<Product> updateProductById(Product product, Long id) {
-		return productRepository.findById(id).map(productToUpdate -> {
-			productToUpdate.setName(product.getName());
-			productToUpdate.setPrice(product.getPrice());
-			productToUpdate.setBrand(product.getBrand());
-			productToUpdate.setSku(product.getSku());
-			productToUpdate.setWeight(product.getWeight());
-			productToUpdate.setDescription(product.getDescription());
-			productToUpdate.setCategory(product.getCategory());
-			Product updated = productRepository.save(productToUpdate);
-			return ResponseEntity.ok().body(product);
-		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+	public Product update(Long id, Product obj) {
+		try {
+			Product entity = productRepository.getById(id);
+			updateData(entity, obj);
+			return productRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("Id not found" + id);
+		}
 	}
 
-	public ResponseEntity<Object> deleteProductById(Long id) {
-		return productRepository.findById(id).map(productToDelete -> {
+	public void delete(Long id) {
+		try {
 			productRepository.deleteById(id);
-			return ResponseEntity.noContent().build();
-		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Id not found " + id);
+		}
 	}
+
+	private void updateData(Product entity, Product obj) {
+		entity.setName(obj.getName());
+		entity.setPrice(obj.getPrice());
+		entity.setBrand(obj.getBrand());
+		entity.setSku(obj.getSku());
+		entity.setWeight(obj.getWeight());
+		entity.setDescription(obj.getDescription());
+		entity.setCategory(obj.getCategory());
+	}
+
 }

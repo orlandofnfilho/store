@@ -1,5 +1,6 @@
 package br.edu.ficr.store.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.ficr.store.entities.Supplier;
 import br.edu.ficr.store.services.SupplierService;
@@ -29,75 +31,57 @@ public class SupplierResource {
 	@Autowired
 	private SupplierService supplierService;
 
-	@PostMapping("/suppliers")
-	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(value = "Add a new supplier")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "New supplier created"),
-			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
-			@ApiResponse(code = 500, message = "Error adding supplier") })
-	public Supplier addSupplier(@RequestBody Supplier supplier) {
-		return supplierService.addSupplier(supplier);
-	}
-
 	@PostMapping("/addProdSup")
 	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Add Product to supplier")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product add to supplier"),
-			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
-			@ApiResponse(code = 404, message = "Product or supplier not found"),
-			@ApiResponse(code = 500, message = "Error add product to supplier") })
+	@ApiOperation(value = "Add product to supplier")
 	public Supplier addProdSup(@RequestParam Long productId, Long supplierId) {
 		return supplierService.addProdSup(productId, supplierId);
 	}
 
+	@PostMapping("/suppliers")
+	@ApiOperation(value = "Add new supplier")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "New supplier created"),
+	@ApiResponse(code = 500, message = "Error adding supplier") })
+	public ResponseEntity<Supplier> insert(@RequestBody Supplier supplier) {
+		supplier = supplierService.insert(supplier);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(supplier.getId())
+				.toUri();
+		return ResponseEntity.created(uri).body(supplier);
+	}
+
 	@GetMapping("/suppliers")
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Listing all suppliers")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "All suppliers listed"),
-			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
-			@ApiResponse(code = 404, message = "Suppliers not found"),
-			@ApiResponse(code = 500, message = "Error listing all suppliers") })
-	public List<Supplier> findAll() {
-		return supplierService.findAll();
+	@ApiOperation(value = "Show all suppliers")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "All products listed")})
+	public ResponseEntity<List<Supplier>> findAll() {
+		List<Supplier> list = supplierService.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping("/suppliers/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Finding supplier by Id")
+	@ApiOperation(value = "Find supplier by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Supplier found by id"),
-			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
-			@ApiResponse(code = 404, message = "Supplier not found"),
-			@ApiResponse(code = 500, message = "Error getting supplier") })
+	@ApiResponse(code = 404, message = "Supplier not found") })
 	public ResponseEntity<Supplier> findById(@PathVariable Long id) {
-		return supplierService.findById(id);
+		Supplier supplier = supplierService.findById(id);
+		return ResponseEntity.ok().body(supplier);
 	}
 
 	@PutMapping("/suppliers/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	@ApiOperation(value = "Updating a supplier")
+	@ApiOperation(value = "Update supplier")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Supplier updated"),
-			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
-			@ApiResponse(code = 404, message = "Supplier not found"),
-			@ApiResponse(code = 500, message = "Error updating supplier") })
-	public ResponseEntity<Supplier> updateSupplier(@RequestBody Supplier supplier, @PathVariable Long id) {
-		return supplierService.updateSupplierById(supplier, id);
+	@ApiResponse(code = 404, message = "Supplier not found") })
+	public ResponseEntity<Supplier> update(@PathVariable Long id, @RequestBody Supplier supplier) {
+		supplier = supplierService.update(id, supplier);
+		return ResponseEntity.ok().body(supplier);
+
 	}
 
 	@DeleteMapping("/suppliers/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@ApiOperation(value = "Deleting a supplier")
+	@ApiOperation(value = "Delete supplier")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Supplier deleted"),
-			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
-			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
-			@ApiResponse(code = 404, message = "Supplier not found"),
-			@ApiResponse(code = 500, message = "Error deleting product") })
-	public ResponseEntity<Object> deleteById(@PathVariable Long id) {
-		return supplierService.deleteSupplierById(id);
+	@ApiResponse(code = 404, message = "Supplier not found") })
+	public ResponseEntity<Object> delete(@PathVariable Long id) {
+		supplierService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
-
 }

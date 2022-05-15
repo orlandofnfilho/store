@@ -32,7 +32,7 @@ public class Product implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(value = "id", position = 1)
+	@ApiModelProperty(value = "id", position = 1,  required = false)
 	private Long id;
 	@ApiModelProperty(value = "name", position = 2)
 	private String name;
@@ -56,7 +56,7 @@ public class Product implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "Products_Suppliers", uniqueConstraints = @UniqueConstraint(columnNames = { "product_id",
 			"supplier_id" }), joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-	@ApiModelProperty(value = "supplier", position = 9)
+	@ApiModelProperty(value = "supplier", position = 9,  required = false)
 	private List<Supplier> suppliers = new ArrayList<>();
 
 	

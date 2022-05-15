@@ -1,9 +1,10 @@
 package br.edu.ficr.store.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ficr.store.entities.Category;
@@ -16,8 +17,8 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	public Category addCategory(Category category) {
-		return categoryRepository.save(category);
+	public Category insert(Category obj) {
+		return categoryRepository.save(obj);
 
 	}
 
@@ -25,23 +26,30 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
-	public ResponseEntity<Category> findById(Long id) {
-		return categoryRepository.findById(id).map(category -> ResponseEntity.ok().body(category))
-				.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+	public Category findById(Long id) {
+		Optional<Category> obj = categoryRepository.findById(id);
+		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
-	public ResponseEntity<Category> updateCategoryById(Category category, Long id) {
-		return categoryRepository.findById(id).map(categoryToUpdate -> {
-			categoryToUpdate.setName(category.getName());
-			Category updated = categoryRepository.save(categoryToUpdate);
-			return ResponseEntity.ok().body(updated);
-		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+	public Category update(Long id, Category obj) {
+		try {
+			Category entity = categoryRepository.getById(id);
+			updateData(entity, obj);
+			return categoryRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("Id not found" + id);
+		}
 	}
-
-	public ResponseEntity<Object> deleteCategoryById(Long id) {
-		return categoryRepository.findById(id).map(categoryToDelete -> {
+	
+	public void delete(Long id) {
+		try {
 			categoryRepository.deleteById(id);
-			return ResponseEntity.noContent().build();
-		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Id not found " + id);
+		}
+	}
+
+	private void updateData(Category entity, Category obj) {
+		entity.setName(obj.getName());
 	}
 }

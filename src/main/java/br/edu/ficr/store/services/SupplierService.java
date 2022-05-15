@@ -1,9 +1,10 @@
 package br.edu.ficr.store.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ficr.store.entities.Supplier;
@@ -20,15 +21,14 @@ public class SupplierService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	public Supplier addSupplier(Supplier supplier) {
-		return supplierRepository.save(supplier);
-
-	}
-
 	public Supplier addProdSup(Long productId, Long supplierId) {
 		Supplier supplier = supplierRepository.getById(supplierId);
 		supplier.getProducts().add(productRepository.getById(productId));
 		return supplierRepository.save(supplier);
+	}
+
+	public Supplier insert(Supplier obj) {
+		return supplierRepository.save(obj);
 
 	}
 
@@ -36,25 +36,33 @@ public class SupplierService {
 		return supplierRepository.findAll();
 	}
 
-	public ResponseEntity<Supplier> findById(Long id) {
-		return supplierRepository.findById(id).map(supplier -> ResponseEntity.ok().body(supplier))
-				.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+	public Supplier findById(Long id) {
+		Optional<Supplier> obj = supplierRepository.findById(id);
+		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 
-	public ResponseEntity<Supplier> updateSupplierById(Supplier supplier, Long id) {
-		return supplierRepository.findById(id).map(supplierToUpdate -> {
-			supplierToUpdate.setName(supplier.getName());
-			supplierToUpdate.setPhone(supplier.getPhone());
-			supplierToUpdate.setEmail(supplierToUpdate.getEmail());
-			Supplier updated = supplierRepository.save(supplierToUpdate);
-			return ResponseEntity.ok().body(updated);
-		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+	public Supplier update(Long id, Supplier obj) {
+		try {
+			Supplier entity = supplierRepository.getById(id);
+			updateData(entity, obj);
+			return supplierRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("Id not found" + id);
+		}
 	}
 
-	public ResponseEntity<Object> deleteSupplierById(Long id) {
-		return supplierRepository.findById(id).map(supplierToDelete -> {
+	public void delete(Long id) {
+		try {
 			supplierRepository.deleteById(id);
-			return ResponseEntity.noContent().build();
-		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Id not found " + id);
+		}
 	}
+
+	private void updateData(Supplier entity, Supplier obj) {
+		entity.setName(obj.getName());
+		entity.setPhone(obj.getPhone());
+		entity.setEmail(obj.getEmail());
+	}
+
 }

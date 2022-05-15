@@ -14,9 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.springframework.lang.Nullable;
-import org.springframework.validation.annotation.Validated;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -25,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="supplier")
+@Table(name = "supplier")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -35,7 +32,7 @@ public class Supplier implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(value = "id", position = 1)
+	@ApiModelProperty(value = "id", position = 1, required = false)
 	private Long id;
 	@ApiModelProperty(value = "name", position = 2)
 	private String name;
@@ -48,7 +45,7 @@ public class Supplier implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "Products_Suppliers", uniqueConstraints = @UniqueConstraint(columnNames = { "product_id",
 			"supplier_id" }), joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "supplier_id"))
-	@ApiModelProperty(value = "products", position = 5)
+	@ApiModelProperty(value = "products", position = 5, required = false)
 	private List<Product> products = new ArrayList<>();
 
 }
