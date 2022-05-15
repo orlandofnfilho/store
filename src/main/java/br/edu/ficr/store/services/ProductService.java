@@ -54,7 +54,7 @@ public class ProductService {
 			productToUpdate.setDescription(product.getDescription());
 			productToUpdate.setCategory(product.getCategory());
 			Product updated = productRepository.save(productToUpdate);
-			return ResponseEntity.ok().body(updated);
+			return ResponseEntity.ok().body(product);
 		}).orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
 	}
 

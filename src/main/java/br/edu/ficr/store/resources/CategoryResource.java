@@ -29,14 +29,13 @@ public class CategoryResource {
 	private CategoryService categoryService;
 
 	@PostMapping("/categories")
-	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Add a new category")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
 			@ApiResponse(code = 401, message = "Client not authenticated and not authorized to access resource"),
 			@ApiResponse(code = 403, message = "Client do not have permission to access the resource"),
 			@ApiResponse(code = 500, message = "Error adding category") })
-	public Category addCategory(@RequestBody Category cat) {
-		return categoryService.addCategory(cat);
+	public Category addCategory(@RequestBody Category category) {
+		return categoryService.addCategory(category);
 	}
 
 	@GetMapping("/categories")
