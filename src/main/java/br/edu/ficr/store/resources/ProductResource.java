@@ -31,6 +31,7 @@ public class ProductResource {
 	@PostMapping("/products")
 	@ApiOperation(value = "Add new product")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product created"),
+	@ApiResponse(code = 409, message = "Product already saved"),
 	@ApiResponse(code = 500, message = "Error adding product") })
 	public ResponseEntity<Product> insert(@RequestBody Product product) {
 		product = productService.insert(product);

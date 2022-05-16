@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ficr.store.entities.Category;
 import br.edu.ficr.store.repositories.CategoryRepository;
+import br.edu.ficr.store.services.exceptions.AlreadyExistsException;
 import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
 
 @Service
@@ -18,6 +19,11 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 
 	public Category insert(Category obj) {
+
+		List<Category> enititySaved = categoryRepository.findByName(obj.getName());
+		if(!enititySaved.isEmpty()){
+			throw new AlreadyExistsException("Category already saved: " + obj.getName());
+		}
 		return categoryRepository.save(obj);
 
 	}
@@ -28,7 +34,7 @@ public class CategoryService {
 
 	public Category findById(Long id) {
 		Optional<Category> obj = categoryRepository.findById(id);
-		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
 	}
 
 	public Category update(Long id, Category obj) {
@@ -37,7 +43,7 @@ public class CategoryService {
 			updateData(entity, obj);
 			return categoryRepository.save(entity);
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id not found" + id);
+			throw new EntityNotFoundException("Id not found: " + id);
 		}
 	}
 	
@@ -45,7 +51,7 @@ public class CategoryService {
 		try {
 			categoryRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Id not found " + id);
+			throw new EntityNotFoundException("Id not found: " + id);
 		}
 	}
 

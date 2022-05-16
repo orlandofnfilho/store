@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import br.edu.ficr.store.services.exceptions.AlreadyExistsException;
 import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
 
 @ControllerAdvice
@@ -27,4 +28,16 @@ public class ResourceExceptionHandler {
 		
 	}
 
+	@ExceptionHandler(AlreadyExistsException.class)
+	public ResponseEntity<StandardError> entityAlreadyExists(AlreadyExistsException e, HttpServletRequest request){
+		
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.CONFLICT.value());
+		err.setError("Resource already exists");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+		
+	}
 }

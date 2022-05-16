@@ -41,6 +41,7 @@ public class SupplierResource {
 	@PostMapping("/suppliers")
 	@ApiOperation(value = "Add new supplier")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New supplier created"),
+	@ApiResponse(code = 409, message = "Supplier already saved"),
 	@ApiResponse(code = 500, message = "Error adding supplier") })
 	public ResponseEntity<Supplier> insert(@RequestBody Supplier supplier) {
 		supplier = supplierService.insert(supplier);

@@ -11,6 +11,7 @@ import br.edu.ficr.store.entities.Product;
 import br.edu.ficr.store.repositories.CategoryRepository;
 import br.edu.ficr.store.repositories.ProductRepository;
 import br.edu.ficr.store.repositories.SupplierRepository;
+import br.edu.ficr.store.services.exceptions.AlreadyExistsException;
 import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
 
 @Service
@@ -32,6 +33,10 @@ public class ProductService {
 		if (!obj.getSuppliers().isEmpty()) {
 			supplierRepository.saveAll(obj.getSuppliers());
 		}
+		List<Product> enititySaved = productRepository.findByName(obj.getName());
+		if(!enititySaved.isEmpty()){
+			throw new AlreadyExistsException("Product already saved: " + obj.getName());
+		}
 		return productRepository.save(obj);
 
 	}
@@ -42,7 +47,7 @@ public class ProductService {
 
 	public Product findById(Long id) {
 		Optional<Product> obj = productRepository.findById(id);
-		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found " + id));
+		return obj.orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
 	}
 
 	public Product update(Long id, Product obj) {
@@ -51,7 +56,7 @@ public class ProductService {
 			updateData(entity, obj);
 			return productRepository.save(entity);
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id not found" + id);
+			throw new EntityNotFoundException("Id not found: " + id);
 		}
 	}
 
@@ -59,7 +64,7 @@ public class ProductService {
 		try {
 			productRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Id not found " + id);
+			throw new EntityNotFoundException("Id not found: " + id);
 		}
 	}
 
