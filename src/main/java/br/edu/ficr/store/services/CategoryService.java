@@ -19,9 +19,8 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 
 	public Category insert(Category obj) {
-
 		List<Category> enititySaved = categoryRepository.findByName(obj.getName());
-		if(!enititySaved.isEmpty()){
+		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Category already saved: " + obj.getName());
 		}
 		return categoryRepository.save(obj);
@@ -46,7 +45,7 @@ public class CategoryService {
 			throw new EntityNotFoundException("Id not found: " + id);
 		}
 	}
-	
+
 	public void delete(Long id) {
 		try {
 			categoryRepository.deleteById(id);

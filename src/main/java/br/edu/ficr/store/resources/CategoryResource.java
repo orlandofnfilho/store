@@ -31,8 +31,7 @@ public class CategoryResource {
 	@PostMapping("/categories")
 	@ApiOperation(value = "Add new category")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
-	@ApiResponse(code = 409, message = "Category already saved"),
-	@ApiResponse(code = 500, message = "Error adding category") })
+			@ApiResponse(code = 409, message = "Category already saved") })
 	public ResponseEntity<Category> insert(@RequestBody Category category) {
 		category = categoryService.insert(category);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(category.getId())
@@ -42,7 +41,7 @@ public class CategoryResource {
 
 	@GetMapping("/categories")
 	@ApiOperation(value = "Show all categories")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "All categories listed")})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "All categories listed") })
 	public ResponseEntity<List<Category>> findAll() {
 		List<Category> list = categoryService.findAll();
 		return ResponseEntity.ok().body(list);
@@ -51,7 +50,7 @@ public class CategoryResource {
 	@GetMapping("/categories/{id}")
 	@ApiOperation(value = "Find category by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category found by id"),
-	@ApiResponse(code = 404, message = "Category not found") })
+			@ApiResponse(code = 404, message = "Category not found") })
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
 		Category category = categoryService.findById(id);
 		return ResponseEntity.ok().body(category);
@@ -60,7 +59,7 @@ public class CategoryResource {
 	@PutMapping("/categories/{id}")
 	@ApiOperation(value = "Update category")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category updated"),
-	@ApiResponse(code = 404, message = "Category not found") })
+			@ApiResponse(code = 404, message = "Category not found") })
 	public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
 		category = categoryService.update(id, category);
 		return ResponseEntity.ok().body(category);
@@ -70,7 +69,7 @@ public class CategoryResource {
 	@DeleteMapping("/categories/{id}")
 	@ApiOperation(value = "Delete category")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Category deleted"),
-	@ApiResponse(code = 404, message = "Category not found") })
+			@ApiResponse(code = 404, message = "Category not found") })
 	public ResponseEntity<Object> delete(@PathVariable Long id) {
 		categoryService.delete(id);
 		return ResponseEntity.noContent().build();

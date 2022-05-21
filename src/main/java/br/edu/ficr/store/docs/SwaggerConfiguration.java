@@ -22,7 +22,7 @@ public class SwaggerConfiguration {
 				.apis(RequestHandlerSelectors.basePackage("br.edu.ficr.store.resources"))
 				.paths(PathSelectors.any())
 				.build()
-				.useDefaultResponseMessages(true)
+				.useDefaultResponseMessages(false)
 				.apiInfo(apiInfo());
 	}
 
