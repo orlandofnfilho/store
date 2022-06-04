@@ -50,12 +50,12 @@ public class ProductResource {
 	@GetMapping("/products/{id}")
 	@ApiOperation(value = "Find product by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product found by id"),
-	@ApiResponse(code = 404, message = "Product not found") })
+			@ApiResponse(code = 404, message = "Product not found") })
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		Product product = productService.findById(id);
 		return ResponseEntity.ok().body(product);
 	}
-	
+
 	@PutMapping("/products/{id}")
 	@ApiOperation(value = "Update product")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
@@ -65,7 +65,7 @@ public class ProductResource {
 		return ResponseEntity.ok().body(product);
 
 	}
-	
+
 	@DeleteMapping("/products/{id}")
 	@ApiOperation(value = "Delete product")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Product deleted"),
@@ -73,6 +73,16 @@ public class ProductResource {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		productService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PutMapping("/products/")
+	@ApiOperation(value = "Add suppliers")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
+			@ApiResponse(code = 404, message = "Product not found") })
+	public ResponseEntity<Product> addSupplier(@RequestBody Product product) {
+		product = productService.addSupplier(product);
+		return ResponseEntity.ok().body(product);
+
 	}
 
 }

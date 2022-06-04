@@ -8,7 +8,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ficr.store.entities.Supplier;
-import br.edu.ficr.store.repositories.ProductRepository;
 import br.edu.ficr.store.repositories.SupplierRepository;
 import br.edu.ficr.store.services.exceptions.AlreadyExistsException;
 import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
@@ -19,19 +18,10 @@ public class SupplierService {
 	@Autowired
 	private SupplierRepository supplierRepository;
 
-	@Autowired
-	private ProductRepository productRepository;
-
-	public Supplier addProdSup(Long productId, Long supplierId) {
-		Supplier supplier = supplierRepository.getById(supplierId);
-		supplier.getProducts().add(productRepository.getById(productId));
-		return supplierRepository.save(supplier);
-	}
-
 	public Supplier insert(Supplier obj) {
-		
+
 		List<Supplier> enititySaved = supplierRepository.findByName(obj.getName());
-		if(!enititySaved.isEmpty()){
+		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Supplier already saved: " + obj.getName());
 		}
 		return supplierRepository.save(obj);

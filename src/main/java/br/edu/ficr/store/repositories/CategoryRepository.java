@@ -11,5 +11,5 @@ import br.edu.ficr.store.entities.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long>{
 
     List<Category> findByName(String name);
-
+    
 }

@@ -34,7 +34,7 @@ public class ProductService {
 			supplierRepository.saveAll(obj.getSuppliers());
 		}
 		List<Product> enititySaved = productRepository.findByName(obj.getName());
-		if(!enititySaved.isEmpty()){
+		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Product already saved: " + obj.getName());
 		}
 		return productRepository.save(obj);
@@ -65,6 +65,16 @@ public class ProductService {
 			productRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException("Id not found: " + id);
+		}
+	}
+
+	public Product addSupplier(Product obj) {
+		try {
+			Product entity = productRepository.getById(obj.getId());
+			entity.getSuppliers().addAll(obj.getSuppliers());
+			return productRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("Id not found: " + obj.getId());
 		}
 	}
 
