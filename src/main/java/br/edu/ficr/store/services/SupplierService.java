@@ -20,7 +20,7 @@ public class SupplierService {
 
 	public Supplier insert(Supplier obj) {
 
-		List<Supplier> enititySaved = supplierRepository.findByName(obj.getName());
+		Optional<Supplier> enititySaved = supplierRepository.findByName(obj.getName());
 		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Supplier already saved: " + obj.getName());
 		}

@@ -33,7 +33,7 @@ public class ProductService {
 		if (!obj.getSuppliers().isEmpty()) {
 			supplierRepository.saveAll(obj.getSuppliers());
 		}
-		List<Product> enititySaved = productRepository.findByName(obj.getName());
+		Optional<Product>  enititySaved = productRepository.findByName(obj.getName());
 		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Product already saved: " + obj.getName());
 		}

@@ -19,7 +19,7 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 
 	public Category insert(Category obj) {
-		List<Category> enititySaved = categoryRepository.findByName(obj.getName());
+		Optional<Category> enititySaved = categoryRepository.findByName(obj.getName());
 		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Category already saved: " + obj.getName());
 		}
