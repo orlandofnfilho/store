@@ -54,7 +54,7 @@ public class CategoryService {
 		}
 	}
 
-	private void updateData(Category entity, Category obj) {
+	public void updateData(Category entity, Category obj) {
 		entity.setName(obj.getName());
 	}
 }
