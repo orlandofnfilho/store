@@ -35,7 +35,7 @@ public class ProductResource {
 	@PostMapping("/products")
 	@ApiOperation(value = "Add new product")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
-			@ApiResponse(code = 409, message = "Category already saved"), @ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 409, message = "Category already saved") })
 	public ResponseEntity<Product> insert(@RequestBody Product product) {
 		product = productService.insert(product);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(product.getId())
@@ -45,7 +45,7 @@ public class ProductResource {
 
 	@GetMapping("/products")
 	@ApiOperation(value = "Show all products")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Show all products"), @ApiResponse(code = 500, message = "Server Error") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Show all products") })
 	public ResponseEntity<List<Product>> findAll() {
 		List<Product> list = productService.findAll();
 		return ResponseEntity.ok().body(list);
@@ -54,7 +54,7 @@ public class ProductResource {
 	@GetMapping("/products/{id}")
 	@ApiOperation(value = "Find product by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product found by id"),
-			@ApiResponse(code = 404, message = "Product not found"), @ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Product not found") })
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		Product product = productService.findById(id);
 		return ResponseEntity.ok().body(product);
@@ -63,7 +63,7 @@ public class ProductResource {
 	@PutMapping("/products/{id}")
 	@ApiOperation(value = "Update product")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
-			@ApiResponse(code = 404, message = "Product not found"), @ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Product not found") })
 	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
 		product = productService.update(id, product);
 		return ResponseEntity.ok().body(product);
@@ -73,7 +73,7 @@ public class ProductResource {
 	@DeleteMapping("/products/{id}")
 	@ApiOperation(value = "Delete product")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Product deleted"),
-			@ApiResponse(code = 404, message = "Product not found"), @ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Product not found") })
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		productService.delete(id);
 		return ResponseEntity.noContent().build();
@@ -82,7 +82,7 @@ public class ProductResource {
 	@PutMapping("/products/")
 	@ApiOperation(value = "Add suppliers")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
-			@ApiResponse(code = 404, message = "Product not found"), @ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Product not found") })
 	public ResponseEntity<Product> addSupplier(@RequestBody Product product) {
 		product = productService.addSupplier(product);
 		return ResponseEntity.ok().body(product);

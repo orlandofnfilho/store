@@ -31,8 +31,7 @@ public class SupplierResource {
 	@PostMapping("/suppliers")
 	@ApiOperation(value = "Add new supplier")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New supplier created"),
-			@ApiResponse(code = 409, message = "Supplier already saved"),
-			@ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 409, message = "Supplier already saved") })
 	public ResponseEntity<Supplier> insert(@RequestBody Supplier supplier) {
 		supplier = supplierService.insert(supplier);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(supplier.getId())
@@ -42,8 +41,7 @@ public class SupplierResource {
 
 	@GetMapping("/suppliers")
 	@ApiOperation(value = "Show all suppliers")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "All suppliers listed"),
-			@ApiResponse(code = 500, message = "Server Error") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "All suppliers listed") })
 	public ResponseEntity<List<Supplier>> findAll() {
 		List<Supplier> list = supplierService.findAll();
 		return ResponseEntity.ok().body(list);
@@ -52,8 +50,7 @@ public class SupplierResource {
 	@GetMapping("/suppliers/{id}")
 	@ApiOperation(value = "Find supplier by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Supplier found by id"),
-			@ApiResponse(code = 404, message = "Supplier not found"),
-			@ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Supplier not found") })
 	public ResponseEntity<Supplier> findById(@PathVariable Long id) {
 		Supplier supplier = supplierService.findById(id);
 		return ResponseEntity.ok().body(supplier);
@@ -62,8 +59,7 @@ public class SupplierResource {
 	@PutMapping("/suppliers/{id}")
 	@ApiOperation(value = "Update supplier")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Supplier updated"),
-			@ApiResponse(code = 404, message = "Supplier not found"),
-			@ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Supplier not found") })
 	public ResponseEntity<Supplier> update(@PathVariable Long id, @RequestBody Supplier supplier) {
 		supplier = supplierService.update(id, supplier);
 		return ResponseEntity.ok().body(supplier);
@@ -73,8 +69,7 @@ public class SupplierResource {
 	@DeleteMapping("/suppliers/{id}")
 	@ApiOperation(value = "Delete supplier")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Supplier deleted"),
-			@ApiResponse(code = 404, message = "Supplier not found"),
-			@ApiResponse(code = 500, message = "Server Error") })
+			@ApiResponse(code = 404, message = "Supplier not found") })
 	public ResponseEntity<Object> delete(@PathVariable Long id) {
 		supplierService.delete(id);
 		return ResponseEntity.noContent().build();
