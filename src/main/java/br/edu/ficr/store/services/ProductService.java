@@ -41,8 +41,7 @@ public class ProductService {
 			throw new AlreadyExistsException("Product already saved: " + obj.getName());
 		}
 
-		Inventory inventory = Inventory.builder().unitQt(0).updateAt(Instant.now()).status(StockStatus.OUT_OF_STOCK)
-				.build();
+		Inventory inventory = new Inventory(null, 0, Instant.now(), StockStatus.OUT_OF_STOCK, obj);
 
 		obj.setInventory(inventory);
 

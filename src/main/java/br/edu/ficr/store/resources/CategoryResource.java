@@ -31,7 +31,7 @@ public class CategoryResource {
 	@PostMapping("/categories")
 	@ApiOperation(value = "Add new category")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
-			@ApiResponse(code = 409, message = "Category already saved") })
+			@ApiResponse(code = 409, message = "Category already saved")})
 	public ResponseEntity<Category> insert(@RequestBody Category category) {
 		category = categoryService.insert(category);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(category.getId())

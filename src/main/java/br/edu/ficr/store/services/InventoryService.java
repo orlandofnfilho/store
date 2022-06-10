@@ -60,7 +60,7 @@ public class InventoryService {
 
 		Inventory inventory = product.get().getInventory();
 		if (qt > inventory.getUnitQt()) {
-			throw new InventoryException("Only" + inventory.getUnitQt() + " itens left in stock");
+			throw new InventoryException("Only " + inventory.getUnitQt() + " itens left in stock");
 		}
 
 		int result = inventory.getUnitQt() - qt;
