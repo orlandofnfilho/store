@@ -35,9 +35,9 @@ public class InventoryResource {
 	}
 
 	@GetMapping("/inventories/{id}")
-	@ApiOperation(value = "Find category by Id")
+	@ApiOperation(value = "Find inventory by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Inventory found by id"),
-			@ApiResponse(code = 404, message = "Inventory not found")})
+			@ApiResponse(code = 404, message = "Inventory not found") })
 	public ResponseEntity<Inventory> findById(@PathVariable Long id) {
 		Inventory inventory = inventoryService.findById(id);
 		return ResponseEntity.ok().body(inventory);
@@ -46,7 +46,7 @@ public class InventoryResource {
 	@PostMapping("/inventories/entry")
 	@ApiOperation(value = "Entry products")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Entry products"),
-			@ApiResponse(code = 409, message = "Invalid quantity")})
+			@ApiResponse(code = 409, message = "Invalid quantity") })
 	public ResponseEntity<Inventory> entry(@RequestBody Product obj, @RequestParam Integer qt) {
 		Inventory inventory = inventoryService.entry(obj, qt);
 		return ResponseEntity.ok().body(inventory);
@@ -55,7 +55,7 @@ public class InventoryResource {
 	@PostMapping("/inventories/output")
 	@ApiOperation(value = "Output products")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Output products"),
-			@ApiResponse(code = 409, message = "Invalid quantity")})
+			@ApiResponse(code = 409, message = "Invalid quantity") })
 	public ResponseEntity<Inventory> output(@RequestBody Product obj, @RequestParam Integer qt) {
 		Inventory inventory = inventoryService.output(obj, qt);
 		return ResponseEntity.ok().body(inventory);
