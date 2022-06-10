@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.ficr.store.entities.Product;
+import br.edu.ficr.store.repositories.InventoryRepository;
 import br.edu.ficr.store.services.ProductService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,6 +28,9 @@ public class ProductResource {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private InventoryRepository repository;
 
 	@PostMapping("/products")
 	@ApiOperation(value = "Add new product")
@@ -84,5 +88,4 @@ public class ProductResource {
 		return ResponseEntity.ok().body(product);
 
 	}
-
 }

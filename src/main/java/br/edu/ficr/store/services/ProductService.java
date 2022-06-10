@@ -1,5 +1,6 @@
 package br.edu.ficr.store.services;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.edu.ficr.store.entities.Inventory;
 import br.edu.ficr.store.entities.Product;
+import br.edu.ficr.store.entities.enums.StockStatus;
 import br.edu.ficr.store.repositories.CategoryRepository;
 import br.edu.ficr.store.repositories.ProductRepository;
 import br.edu.ficr.store.repositories.SupplierRepository;
@@ -33,10 +36,16 @@ public class ProductService {
 		if (!obj.getSuppliers().isEmpty()) {
 			supplierRepository.saveAll(obj.getSuppliers());
 		}
-		Optional<Product>  enititySaved = productRepository.findByName(obj.getName());
+		Optional<Product> enititySaved = productRepository.findByName(obj.getName());
 		if (!enititySaved.isEmpty()) {
 			throw new AlreadyExistsException("Product already saved: " + obj.getName());
 		}
+
+		Inventory inventory = Inventory.builder().unitQt(0).updateAt(Instant.now()).status(StockStatus.OUT_OF_STOCK)
+				.build();
+
+		obj.setInventory(inventory);
+
 		return productRepository.save(obj);
 
 	}

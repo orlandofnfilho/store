@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -34,7 +36,7 @@ public class Product implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(value = "id", position = 1,  required = false)
+	@ApiModelProperty(value = "id", position = 1, required = false)
 	private Long id;
 	@ApiModelProperty(value = "name", position = 2)
 	private String name;
@@ -54,13 +56,15 @@ public class Product implements Serializable {
 	@ApiModelProperty(value = "category", position = 8, required = false)
 	private Category category;
 
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "inventory_id", referencedColumnName = "id")
+	@ApiModelProperty(value = "inventory", position = 9, required = false)
+	private Inventory inventory;
+
 	@ManyToMany
 	@JoinTable(name = "Products_Suppliers", uniqueConstraints = @UniqueConstraint(columnNames = { "product_id",
 			"supplier_id" }), joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-	@ApiModelProperty(value = "supplier", position = 9,  required = false)
+	@ApiModelProperty(value = "supplier", position = 10, required = false)
 	private List<Supplier> suppliers = new ArrayList<>();
 
-	
-	
 }

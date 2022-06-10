@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.edu.ficr.store.services.exceptions.AlreadyExistsException;
 import br.edu.ficr.store.services.exceptions.EntityNotFoundException;
+import br.edu.ficr.store.services.exceptions.InventoryException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
-	
+
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request){
-		
+	public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
+
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.NOT_FOUND.value());
@@ -25,12 +26,12 @@ public class ResourceExceptionHandler {
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
-		
+
 	}
 
 	@ExceptionHandler(AlreadyExistsException.class)
-	public ResponseEntity<StandardError> entityAlreadyExists(AlreadyExistsException e, HttpServletRequest request){
-		
+	public ResponseEntity<StandardError> entityAlreadyExists(AlreadyExistsException e, HttpServletRequest request) {
+
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.CONFLICT.value());
@@ -38,6 +39,19 @@ public class ResourceExceptionHandler {
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
-		
+
+	}
+
+	@ExceptionHandler(InventoryException.class)
+	public ResponseEntity<StandardError> inventoryException(InventoryException e, HttpServletRequest request) {
+
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.CONFLICT.value());
+		err.setError("Invalid quantity");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+
 	}
 }
