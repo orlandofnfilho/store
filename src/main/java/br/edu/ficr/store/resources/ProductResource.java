@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.ficr.store.entities.Product;
-import br.edu.ficr.store.repositories.InventoryRepository;
 import br.edu.ficr.store.services.ProductService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -29,13 +28,10 @@ public class ProductResource {
 	@Autowired
 	private ProductService productService;
 
-	@Autowired
-	private InventoryRepository repository;
-
 	@PostMapping("/products")
 	@ApiOperation(value = "Add new product")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
-			@ApiResponse(code = 409, message = "Category already saved") })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product created"),
+			@ApiResponse(code = 409, message = "Product already saved") })
 	public ResponseEntity<Product> insert(@RequestBody Product product) {
 		product = productService.insert(product);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(product.getId())
