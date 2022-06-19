@@ -22,13 +22,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/suppliers")
 public class SupplierResource {
 
 	@Autowired
 	private SupplierService supplierService;
 
-	@PostMapping("/suppliers")
+	@PostMapping
 	@ApiOperation(value = "Add new supplier")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New supplier created"),
 			@ApiResponse(code = 409, message = "Supplier already saved") })
@@ -39,7 +39,7 @@ public class SupplierResource {
 		return ResponseEntity.created(uri).body(supplier);
 	}
 
-	@GetMapping("/suppliers")
+	@GetMapping
 	@ApiOperation(value = "Show all suppliers")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "All suppliers listed") })
 	public ResponseEntity<List<Supplier>> findAll() {
@@ -47,7 +47,7 @@ public class SupplierResource {
 		return ResponseEntity.ok().body(list);
 	}
 
-	@GetMapping("/suppliers/{id}")
+	@GetMapping("/{id}")
 	@ApiOperation(value = "Find supplier by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Supplier found by id"),
 			@ApiResponse(code = 404, message = "Supplier not found") })
@@ -56,7 +56,7 @@ public class SupplierResource {
 		return ResponseEntity.ok().body(supplier);
 	}
 
-	@PutMapping("/suppliers/{id}")
+	@PutMapping("/{id}")
 	@ApiOperation(value = "Update supplier")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Supplier updated"),
 			@ApiResponse(code = 404, message = "Supplier not found") })
@@ -66,7 +66,7 @@ public class SupplierResource {
 
 	}
 
-	@DeleteMapping("/suppliers/{id}")
+	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete supplier")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Supplier deleted"),
 			@ApiResponse(code = 404, message = "Supplier not found") })

@@ -20,13 +20,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/inventories")
 public class InventoryResource {
 
 	@Autowired
 	private InventoryService inventoryService;
 
-	@GetMapping("/inventories")
+	@GetMapping
 	@ApiOperation(value = "Show all inventories")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "All inventories listed") })
 	public ResponseEntity<List<Inventory>> findAll() {
@@ -34,7 +34,7 @@ public class InventoryResource {
 		return ResponseEntity.ok().body(list);
 	}
 
-	@GetMapping("/inventories/{id}")
+	@GetMapping("/{id}")
 	@ApiOperation(value = "Find inventory by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Inventory found by id"),
 			@ApiResponse(code = 404, message = "Inventory not found") })
@@ -43,7 +43,7 @@ public class InventoryResource {
 		return ResponseEntity.ok().body(inventory);
 	}
 
-	@PostMapping("/inventories/entry")
+	@PostMapping("/entry")
 	@ApiOperation(value = "Entry products")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Entry products"),
 			@ApiResponse(code = 409, message = "Invalid quantity") })
@@ -52,7 +52,7 @@ public class InventoryResource {
 		return ResponseEntity.ok().body(inventory);
 	}
 
-	@PostMapping("/inventories/output")
+	@PostMapping("/output")
 	@ApiOperation(value = "Output products")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Output products"),
 			@ApiResponse(code = 409, message = "Invalid quantity") })

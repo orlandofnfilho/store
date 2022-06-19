@@ -8,23 +8,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.edu.ficr.store.entities.enums.StockStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "inventory")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
 public class Inventory implements Serializable {
 
 	private static final long serialVersionUID = 1L;

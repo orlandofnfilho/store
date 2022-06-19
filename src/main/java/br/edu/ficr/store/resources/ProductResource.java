@@ -22,13 +22,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/products")
 public class ProductResource {
 
 	@Autowired
 	private ProductService productService;
 
-	@PostMapping("/products")
+	@PostMapping
 	@ApiOperation(value = "Add new product")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New product created"),
 			@ApiResponse(code = 409, message = "Product already saved") })
@@ -39,7 +39,7 @@ public class ProductResource {
 		return ResponseEntity.created(uri).body(product);
 	}
 
-	@GetMapping("/products")
+	@GetMapping
 	@ApiOperation(value = "Show all products")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Show all products") })
 	public ResponseEntity<List<Product>> findAll() {
@@ -47,7 +47,7 @@ public class ProductResource {
 		return ResponseEntity.ok().body(list);
 	}
 
-	@GetMapping("/products/{id}")
+	@GetMapping("/{id}")
 	@ApiOperation(value = "Find product by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product found by id"),
 			@ApiResponse(code = 404, message = "Product not found") })
@@ -56,7 +56,7 @@ public class ProductResource {
 		return ResponseEntity.ok().body(product);
 	}
 
-	@PutMapping("/products/{id}")
+	@PutMapping("/{id}")
 	@ApiOperation(value = "Update product")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
 			@ApiResponse(code = 404, message = "Product not found") })
@@ -66,7 +66,7 @@ public class ProductResource {
 
 	}
 
-	@DeleteMapping("/products/{id}")
+	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete product")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Product deleted"),
 			@ApiResponse(code = 404, message = "Product not found") })
@@ -75,7 +75,7 @@ public class ProductResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping("/products/")
+	@PutMapping("/addSupplier")
 	@ApiOperation(value = "Add suppliers")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Product updated"),
 			@ApiResponse(code = 404, message = "Product not found") })

@@ -22,13 +22,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/categories")
 public class CategoryResource {
 
 	@Autowired
 	private CategoryService categoryService;
 
-	@PostMapping("/categories")
+	@PostMapping
 	@ApiOperation(value = "Add new category")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "New category created"),
 			@ApiResponse(code = 409, message = "Category already saved")})
@@ -39,7 +39,7 @@ public class CategoryResource {
 		return ResponseEntity.created(uri).body(category);
 	}
 
-	@GetMapping("/categories")
+	@GetMapping
 	@ApiOperation(value = "Show all categories")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "All categories listed") })
 	public ResponseEntity<List<Category>> findAll() {
@@ -47,7 +47,7 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(list);
 	}
 
-	@GetMapping("/categories/{id}")
+	@GetMapping("/{id}")
 	@ApiOperation(value = "Find category by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category found by id"),
 			@ApiResponse(code = 404, message = "Category not found") })
@@ -56,7 +56,7 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(category);
 	}
 
-	@PutMapping("/categories/{id}")
+	@PutMapping("/{id}")
 	@ApiOperation(value = "Update category")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Category updated"),
 			@ApiResponse(code = 404, message = "Category not found") })
@@ -66,7 +66,7 @@ public class CategoryResource {
 
 	}
 
-	@DeleteMapping("/categories/{id}")
+	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete category")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Category deleted"),
 			@ApiResponse(code = 404, message = "Category not found") })
